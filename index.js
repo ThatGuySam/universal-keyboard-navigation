@@ -116,11 +116,26 @@
             return Object.values(this.elementsByKind).flat()
         }
 
+        get allElementsByVisualOrder () {
+            return this.allElements.sort( (a, b) => {
+                if( a === b) return 0
+                if( !a.compareDocumentPosition) {
+                    // support for IE8 and below
+                    return a.sourceIndex - b.sourceIndex
+                }
+                if( a.compareDocumentPosition(b) & 2) {
+                    // b comes before a
+                    return 1
+                }
+                return -1
+            })
+        }
+
         initialize() {
             // Delete any existing instances
             console.log('UniversalKeyboardNavigator initialized')
 
-            console.log('allElements', this.allElements)
+            console.log('allElementsByVisualOrder', this.allElementsByVisualOrder)
         }
     }
 
