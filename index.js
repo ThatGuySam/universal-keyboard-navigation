@@ -10,6 +10,8 @@
         }
 
 
+        contentInfoOrBannerExceptions = [ 'article', 'aside', 'main', 'nav', 'section' ]
+
         isDescendantOf (element, tagNames) {
             if (typeof element.closest === 'function') {
               return tagNames.some(name => element.closest(name) !== null)
@@ -20,14 +22,14 @@
 
         isContentinfo (element) {
             if (element.tagName.toLowerCase() !== 'footer') return true
-            if (!this.isDescendantOf(element, ['article', 'section'])) return true
+            if (!this.isDescendantOf(element, contentInfoOrBannerExceptions )) return true
 
             return false
         }
 
         isBanner (element) {
             if (element.tagName.toLowerCase() !== 'header') return true
-            if (!this.isDescendantOf(element, ['article', 'section'])) return true
+            if (!this.isDescendantOf(element, contentInfoOrBannerExceptions )) return true
 
             return false
         }
