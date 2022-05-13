@@ -103,7 +103,11 @@
 
         get elementsByKind () {
             return this.elementDetails.reduce( (acc, [selector, kind]) => {
-                acc[kind] = [...document.querySelectorAll(selector)]
+                const kindList = acc[kind] || []
+                acc[kind] = [
+                    ...kindList, 
+                    ...document.querySelectorAll(selector)
+                ]
                 return acc
             }, {})    
         }
