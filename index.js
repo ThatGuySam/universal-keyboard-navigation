@@ -108,19 +108,7 @@
             return false
         }
 
-        isContentinfo (element) {
-            if (element.tagName.toLowerCase() !== 'footer') return true
-            if (!this.isDescendantOf(element, contentInfoOrBannerExceptions )) return true
 
-            return false
-        }
-
-        isBanner (element) {
-            if (element.tagName.toLowerCase() !== 'header') return true
-            if (!this.isDescendantOf(element, contentInfoOrBannerExceptions )) return true
-
-            return false
-        }
 
         initialize() {
             // Delete any existing instances
