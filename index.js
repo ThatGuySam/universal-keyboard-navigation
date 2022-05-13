@@ -4,7 +4,9 @@
     class UniversalKeyboardNavigator {
         constructor ( options = {} ) {
             const {
-                selectors = {}
+                landmarkSelectors = [],
+                headingSelectors = [],
+                linkSelectors = [],
             } = options
 
         }
