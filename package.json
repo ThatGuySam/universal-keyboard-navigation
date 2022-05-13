@@ -1,0 +1,19 @@
+{
+  "name": "universal-keyboard-navigation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThatGuySam/universal-keyboard-navigation.git"
+  },
+  "author": "Sam Carlton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThatGuySam/universal-keyboard-navigation/issues"
+  },
+  "homepage": "https://github.com/ThatGuySam/universal-keyboard-navigation#readme"
+}
