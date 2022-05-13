@@ -11,6 +11,10 @@
                 linkSelectors = [],
             } = options
 
+            this.landmarkSelectors = landmarkSelectors
+            this.headingSelectors = headingSelectors
+            this.linkSelectors = linkSelectors
+
             this.lastFocusedClass = 'ukbn-last-focused'
 
         }
@@ -104,14 +108,22 @@
         }
 
         get elementsByKind () {
+            const selectorToElements = selector => [...document.querySelectorAll(selector)]
+
+            const initialElements = {
+                landmark: this.landmarkSelectors.map( selectorToElements ).flat(),
+                heading: this.headingSelectors.map( selectorToElements ).flat(),
+                link: this.linkSelectors.map( selectorToElements ).flat()
+            }
+
             return this.elementDetails.reduce( (acc, [selector, kind]) => {
                 const kindList = acc[kind] || []
                 acc[kind] = [
                     ...kindList, 
-                    ...document.querySelectorAll(selector)
+                    ...selectorToElements(selector)
                 ]
                 return acc
-            }, {})    
+            }, initialElements)
         }
 
         get allElements () {
@@ -120,7 +132,7 @@
 
         get allElementsByVisualOrder () {
             return this.allElements.sort( (a, b) => {
-                if( a === b) return 0
+                if( a === b ) return 0
                 if( !a.compareDocumentPosition) {
                     // support for IE8 and below
                     return a.sourceIndex - b.sourceIndex
