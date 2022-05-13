@@ -11,6 +11,8 @@
                 linkSelectors = [],
             } = options
 
+            this.lastFocusedClass = 'ukbn-last-focused'
+
         }
 
         // https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/examples/landmarks/HTML5.html
@@ -129,6 +131,10 @@
                 }
                 return -1
             })
+        }
+
+        get lastFocusedElement () {
+            return document.querySelector(`.${ this.lastFocusedClass }`)
         }
 
         initialize() {
