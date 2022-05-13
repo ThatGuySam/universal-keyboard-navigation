@@ -108,11 +108,18 @@
             return false
         }
 
-
+        get elementsByKind () {
+            return this.elementDetails.reduce( (acc, [selector, kind]) => {
+                acc[kind] = [...document.querySelectorAll(selector)]
+                return acc
+            }, {})    
+        }
 
         initialize() {
             // Delete any existing instances
             console.log('UniversalKeyboardNavigator initialized')
+
+            console.log('elementsByKind', this.elementsByKind)
         }
     }
 
