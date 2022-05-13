@@ -9,5 +9,4 @@ let script = document.createElement('script');
 script.src = 'http://localhost:8080/index.js'; 
 document.body.appendChild(script); 
 ```
-OR
-Open http://localhost:8080/examples for a example pages
+OR open http://localhost:8080/examples for example pages
