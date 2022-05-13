@@ -137,11 +137,47 @@
             return document.querySelector(`.${ this.lastFocusedClass }`)
         }
 
+        // https://www.toptal.com/developers/keycode
+        keyCodes = {
+            // h
+            '72': {
+                method: console.log
+            },
+            // l
+            '76': {
+                method: console.log
+            },
+            // m
+            '77': {
+                method: console.log
+            },
+            '38': {
+                method: console.log
+            },
+            '40': {
+                method: console.log
+            }
+        }
+
+        handleKeyDown = ( event ) => {
+            const { keyCode } = event
+
+            // Do nothing if key is not a navigation key
+            if( !Object.keys(this.keyCodes).includes( String(keyCode) ) ) return
+
+            event.preventDefault()
+
+            this.keyCodes[ keyCode ].method( event )
+        }
+
         initialize() {
             // Delete any existing instances
             console.log('UniversalKeyboardNavigator initialized')
 
             console.log('allElementsByVisualOrder', this.allElementsByVisualOrder)
+
+            // Start key listeners
+            document.addEventListener('keydown', this.handleKeyDown)
         }
     }
 
