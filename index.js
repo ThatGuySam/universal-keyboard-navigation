@@ -100,14 +100,6 @@
             return selectors.map( selector => `:not(${selector})` )
         }
 
-        isDescendantOf (element, tagNames) {
-            if (typeof element.closest === 'function') {
-              return tagNames.some(name => element.closest(name) !== null)
-            }
-
-            return false
-        }
-
         get elementsByKind () {
             return this.elementDetails.reduce( (acc, [selector, kind]) => {
                 acc[kind] = [...document.querySelectorAll(selector)]
