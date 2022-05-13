@@ -2,6 +2,8 @@
 
 ;(function (){
     class UniversalKeyboardNavigator {
+
+        // Pulls options from the window context
         constructor ( options = {} ) {
             const {
                 landmarkSelectors = [],
@@ -42,8 +44,13 @@
         }
     }
 
+    // Get any options from window
+    // Example: 
+    // <script>window.UniversalKeyboardNavigatorOptions = { landmarkSelectors: ['header', 'footer'] }</script>
+    const options = window.UniversalKeyboardNavigatorOptions || {}
+
     // Create and Initialize the keyboard navigator
-    window.universalKeyboardNavigator = new UniversalKeyboardNavigator()
+    window.universalKeyboardNavigator = new UniversalKeyboardNavigator( options )
     window.universalKeyboardNavigator.initialize()
 
 })()
