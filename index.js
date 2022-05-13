@@ -7,7 +7,29 @@
                 selectors = {}
             } = options
 
+        }
 
+
+        isDescendantOf (element, tagNames) {
+            if (typeof element.closest === 'function') {
+              return tagNames.some(name => element.closest(name) !== null)
+            }
+
+            return false
+        }
+
+        isContentinfo (element) {
+            if (element.tagName.toLowerCase() !== 'footer') return true
+            if (!this.isDescendantOf(element, ['article', 'section'])) return true
+
+            return false
+        }
+
+        isBanner (element) {
+            if (element.tagName.toLowerCase() !== 'header') return true
+            if (!this.isDescendantOf(element, ['article', 'section'])) return true
+
+            return false
         }
 
         initialize() {
