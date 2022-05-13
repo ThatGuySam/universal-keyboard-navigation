@@ -112,11 +112,15 @@
             }, {})    
         }
 
+        get allElements () {
+            return Object.values(this.elementsByKind).flat()
+        }
+
         initialize() {
             // Delete any existing instances
             console.log('UniversalKeyboardNavigator initialized')
 
-            console.log('elementsByKind', this.elementsByKind)
+            console.log('allElements', this.allElements)
         }
     }
 
