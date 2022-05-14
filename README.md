@@ -12,6 +12,15 @@ document.body.appendChild(script);
 ```
 OR open http://localhost:8080/examples for example pages
 
+# Keys guide
+
+- <kbd>H</kbd> - Next heading
+- <kbd>L</kbd> - Next link
+- <kbd>M</kbd> - Next landmark
+- <kbd>↑</kbd> - Change next direction toward Top and Left
+- <kbd>↓</kbd> - Change next direction toward Bottom and Right
+
+
 
 
 ## Including by selector
