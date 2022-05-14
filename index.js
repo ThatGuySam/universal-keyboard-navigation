@@ -250,11 +250,11 @@
             },
             // l
             '76': {
-                method: console.log
+                method:  () => this.focusNextElement( 'link' )
             },
             // m
             '77': {
-                method: console.log
+                method: () => this.focusNextElement( 'landmark' )
             },
             // Up Arrow
             '38': {
