@@ -17,6 +17,8 @@
 
             this.lastFocusedClass = 'ukbn-last-focused'
 
+            // 'end' or 'start'
+            this.direction = options.direction || 'end'
         }
 
         // https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/examples/landmarks/HTML5.html
@@ -178,11 +180,73 @@
             return -1
         }
 
+        getWrappingIndex ( index, elements ) {
+            const wrappingIndex = index + elements.length
+            return wrappingIndex % elements.length
+        }
+
+
+        findNextElement ( kind ) {
+
+            const kindList = this.elementsByKind[kind]
+            
+            // Get last focused element
+            // or start from the beginning
+            const lastFocusedElement = this.lastFocusedElement
+
+            if ( !lastFocusedElement ) {
+                console.log('No last focused element')
+                return kindList[0]
+            }
+
+            const lastFocusedIndex = this.elementsByKind[ kind ].indexOf( lastFocusedElement )
+
+            console.log( 'lastFocusedIndex', lastFocusedIndex, lastFocusedElement )
+
+            let nextIndex = ({
+                'end': lastFocusedIndex + 1,
+                'start': lastFocusedIndex - 1,
+            })[ this.direction ]
+
+            console.log('nextIndex', nextIndex)
+
+            // Wrap around to the beginning or end
+            nextIndex = this.getWrappingIndex( nextIndex, kindList )
+
+            const nextElement = kindList[nextIndex]
+
+            return nextElement
+        }
+
+        focusElement ( element ) {
+            // Find and existing focused elements
+            const focusedElements = document.querySelectorAll('.ukbn-last-focused')
+
+            // Add focused class to element
+            element.classList.add( this.lastFocusedClass )
+
+            // Set focus on element
+            element.focus()
+
+            // Remove focused class from all other elements
+            for (const focusedElement of focusedElements) {
+                focusedElement.classList.remove( this.lastFocusedClass )
+            }
+        }
+
+        focusNextElement ( kind ) {
+            const nextElement = this.findNextElement( kind )
+
+            console.log('nextElement', nextElement)
+
+            this.focusElement( nextElement )
+        }
+
         // https://www.toptal.com/developers/keycode
         keyCodes = {
             // h
             '72': {
-                method: console.log
+                method: () => this.focusNextElement( 'heading' ),
             },
             // l
             '76': {
@@ -215,7 +279,8 @@
             // Delete any existing instances
             console.log('UniversalKeyboardNavigator initialized')
 
-            console.log('allElementsByVisualOrder', this.allElementsByVisualOrder)
+            console.log('allElements', this.allElements )
+            console.log( 'elementsByKind', this.elementsByKind )
 
             // Start key listeners
             document.addEventListener('keydown', this.handleKeyDown)
