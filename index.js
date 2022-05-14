@@ -108,22 +108,47 @@
         }
 
         get elementsByKind () {
-            const selectorToElements = selector => [...document.querySelectorAll(selector)]
-
-            const initialElements = {
-                landmark: this.landmarkSelectors.map( selectorToElements ).flat(),
-                heading: this.headingSelectors.map( selectorToElements ).flat(),
-                link: this.linkSelectors.map( selectorToElements ).flat()
+            // We'll use a Set for each kind
+            // so that element can exist in multiple kinds but not twice in the same kind
+            // Example might be nav that's a link for mobile
+            // Set - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
+            const byKind = {
+                landmark: new Set(),
+                heading: new Set(),
+                link: new Set(),
             }
 
-            return this.elementDetails.reduce( (acc, [selector, kind]) => {
-                const kindList = acc[kind] || []
-                acc[kind] = [
-                    ...kindList, 
-                    ...selectorToElements(selector)
-                ]
-                return acc
-            }, initialElements)
+            const selectorToElements = selector => [...document.querySelectorAll(selector)]
+
+            const addElementsToSet = (selectors, kind) => {
+                const elements = selectors.map( selectorToElements ).flat()
+
+                for (const element of elements) {
+                    if (byKind[kind].has(element)) {
+                        console.log('Element already exists in set', element)
+                        continue
+                    }
+
+                    byKind[kind].add(element)
+                }
+            }
+
+            // Add elements from options argument
+            addElementsToSet( this.landmarkSelectors, 'landmark' )
+            addElementsToSet( this.headingSelectors, 'heading' )
+            addElementsToSet( this.linkSelectors, 'link' )
+
+            // Add elements from elementDetails
+            for (const [selector, kind] of this.elementDetails) {
+                addElementsToSet( [selector], kind )
+            }
+
+            // Convert Sets to Arrays
+            for (const kind in byKind) {
+                byKind[kind] = Array.from( byKind[kind] ).sort( this.byElementVisualOrder )
+            }
+
+            return byKind
         }
 
         get allElements () {
