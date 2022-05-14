@@ -152,7 +152,7 @@
         }
 
         get allElements () {
-            console.log('allElements', this.elementsByKind)
+            // console.log('allElements', this.elementsByKind)
 
             // Put all elements into a Set to remove duplicates
             const allElementsSet = new Set( Object.values(this.elementsByKind).flat() )
