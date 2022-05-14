@@ -283,7 +283,31 @@
             this.keyCodes[ keyCode ].method( event )
         }
 
+
+        addStyles () {
+            const primaryColor = '#020202'
+            const secondaryColor = '#f1f1f1'
+
+            const styles = /* html */`
+                <style>
+                    .${ this.lastFocusedClass } {
+                        background-color: ${ secondaryColor } !important; 
+                        color: ${ primaryColor } !important;
+                        border: solid 2px white !important;
+                        outline: 4px solid black !important;
+                    }
+
+                    .${ this.lastFocusedClass } * {
+                        color: inherit !important;
+                    }
+                </style>
+            `
+            document.head.insertAdjacentHTML( 'beforeend', styles )
+        }
+
         initialize() {
+            this.addStyles()
+
             // Delete any existing instances
             console.log('UniversalKeyboardNavigator initialized')
 
