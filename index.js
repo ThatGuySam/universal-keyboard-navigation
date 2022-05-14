@@ -1,5 +1,5 @@
 
-
+// All code runs in this function
 ;(function (){
     class UniversalKeyboardNavigator {
 
