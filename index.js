@@ -9,11 +9,16 @@
                 landmarkSelectors = [],
                 headingSelectors = [],
                 linkSelectors = [],
+                excludeSelectors = [],
             } = options
 
             this.landmarkSelectors = landmarkSelectors
             this.headingSelectors = headingSelectors
             this.linkSelectors = linkSelectors
+
+            this.excludeSelectorsArray = excludeSelectors || []
+            this.excludeSelector = this.excludeSelectorsArray.join(', ')
+
 
             this.lastFocusedClass = 'ukbn-last-focused'
 
@@ -109,6 +114,16 @@
             return selectors.map( selector => `:not(${selector})` )
         }
 
+        get hasExcludes () {
+            return this.excludeSelectorsArray.length > 0
+        }
+
+        isExcluded ( element ) {
+            if ( !this.hasExcludes ) return false
+
+            return element.matches( this.excludeSelector )
+        }
+
         get elementsByKind () {
             // We'll use a Set for each kind
             // so that element can exist in multiple kinds but not twice in the same kind
@@ -126,7 +141,14 @@
                 const elements = selectors.map( selectorToElements ).flat()
 
                 for (const element of elements) {
-                    if (byKind[kind].has(element)) {
+                    // Skip elements that are excluded
+                    if( this.isExcluded( element ) ) {
+                        console.log('Element matches excludedSelector', element)
+                        continue
+                    }
+
+                    // Skip elements that we've already added
+                    if ( byKind[kind].has(element) ) {
                         console.log('Element already exists in set', element)
                         continue
                     }

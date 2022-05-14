@@ -23,12 +23,18 @@ OR open http://localhost:8080/examples for example pages
 
 
 
-## Including by selector
-Right before the script tag to 
+## Including and Excluding
+Right before the script tag for index.js add
 ```html
 <script>
     window.UniversalKeyboardNavigatorOptions = { 
-        landmarkSelectors: ['header', 'footer'] 
+        // Include for Landmark elements
+        landmarkSelectors: ['header', 'footer'], 
+
+        // Exclude
+        excludeSelectors: ['header', 'footer'] 
     }
 </script>
 ```
+
+
