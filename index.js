@@ -220,7 +220,7 @@
 
         focusElement ( element ) {
             // Find and existing focused elements
-            const focusedElements = document.querySelectorAll('.ukbn-last-focused')
+            const focusedElements = document.querySelectorAll(`.${ this.lastFocusedClass }`)
 
             // Add focused class to element
             element.classList.add( this.lastFocusedClass )
