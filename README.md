@@ -12,7 +12,7 @@ document.body.appendChild(script);
 ```
 OR open http://localhost:8080/examples for example pages
 
-# Keys guide
+## Navigation
 
 - <kbd>H</kbd> - Next heading
 - <kbd>L</kbd> - Next link
