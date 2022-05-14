@@ -152,22 +152,13 @@
         }
 
         get allElements () {
-            return Object.values(this.elementsByKind).flat()
-        }
+            console.log('allElements', this.elementsByKind)
 
-        get allElementsByVisualOrder () {
-            return this.allElements.sort( (a, b) => {
-                if( a === b ) return 0
-                if( !a.compareDocumentPosition) {
-                    // support for IE8 and below
-                    return a.sourceIndex - b.sourceIndex
-                }
-                if( a.compareDocumentPosition(b) & 2) {
-                    // b comes before a
-                    return 1
-                }
-                return -1
-            })
+            // Put all elements into a Set to remove duplicates
+            const allElementsSet = new Set( Object.values(this.elementsByKind).flat() )
+
+            // Sort by visual order
+            return Array.from( allElementsSet ).sort( this.byElementVisualOrder )
         }
 
         get lastFocusedElement () {
