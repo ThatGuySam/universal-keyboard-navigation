@@ -208,10 +208,10 @@
                 'start': lastFocusedIndex - 1,
             })[ this.direction ]
 
-            console.log('nextIndex', nextIndex)
-
             // Wrap around to the beginning or end
             nextIndex = this.getWrappingIndex( nextIndex, kindList )
+
+            console.log('nextIndex', nextIndex)
 
             const nextElement = kindList[nextIndex]
 
@@ -256,11 +256,13 @@
             '77': {
                 method: console.log
             },
+            // Up Arrow
             '38': {
-                method: console.log
+                method: () => this.direction = 'start',
             },
+            // Down Arrow
             '40': {
-                method: console.log
+                method: () => this.direction = 'end',
             }
         }
 
