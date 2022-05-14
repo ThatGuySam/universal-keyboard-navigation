@@ -24,6 +24,8 @@
 
             // 'end' or 'start'
             this.direction = options.direction || 'end'
+
+            this.keydownListenerActive = false
         }
 
         // https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/examples/landmarks/HTML5.html
@@ -294,7 +296,47 @@
             }
         }
 
+        isElement ( element ) {
+            return element instanceof Element || element instanceof HTMLDocument;  
+        }
+
+        isInputableElement ( element ) {
+            if ( !this.isElement( element ) ) return false
+
+            return element.matches( 'input, textarea, select' )
+        }
+
+        pauseKeydownListenerUntilBlur () {
+            console.log('Pausing listener')
+            this.keydownListenerActive = false
+            document.removeEventListener('keydown', this.handleKeyDown)
+
+            // Start a new listener for blur
+            document.activeElement.addEventListener('blur', () => {
+                this.startKeydownListener()
+            }, { once: true })
+        }
+
+        startKeydownListener () {
+            // Prevent keydown listener from starting multiple times
+            if ( this.keydownListenerActive ) return
+
+            console.log('Starting listener')
+
+            this.keydownListenerActive = true
+            document.addEventListener('keydown', this.handleKeyDown)
+        }
+
         handleKeyDown = ( event ) => {
+            // console.log('document.activeElement', document.activeElement)
+
+            // If we're on an inputable element somehow
+            // pause our listener so we don't slow down typing
+            if ( this.isInputableElement( document.activeElement ) ) {
+                this.pauseKeydownListenerUntilBlur()
+                return
+            }
+
             const { keyCode } = event
 
             // Do nothing if key is not a navigation key
@@ -327,17 +369,26 @@
             document.head.insertAdjacentHTML( 'beforeend', styles )
         }
 
-        initialize() {
+        initialize () {
             this.addStyles()
 
             // Delete any existing instances
             console.log('UniversalKeyboardNavigator initialized')
 
-            console.log('allElements', this.allElements )
-            console.log( 'elementsByKind', this.elementsByKind )
+            // console.log('allElements', this.allElements )
+            // console.log( 'elementsByKind', this.elementsByKind )
+            
 
-            // Start key listeners
-            document.addEventListener('keydown', this.handleKeyDown)
+            // Pause listener for Input elements
+            // so we don't slow down typing
+            window.addEventListener('focus', focusEvent => {
+                if ( this.isInputableElement( focusEvent.target ) ) {
+                    this.pauseKeydownListenerUntilBlur()
+                }
+            })
+
+            // Start keydown listener
+            this.startKeydownListener()
         }
     }
 
