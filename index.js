@@ -225,6 +225,12 @@
             // Add focused class to element
             element.classList.add( this.lastFocusedClass )
 
+            // Scroll to element
+            element.scrollIntoView({
+                block: 'center',
+                inline: 'center',
+            })
+
             // Set focus on element
             element.focus()
 
